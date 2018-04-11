@@ -9,7 +9,35 @@ def add_polygon( points, x0, y0, z0, x1, y1, z1, x2, y2, z2 ):
 
 
 def draw_polygons( points, screen, color ):
-    draw_lines( matrix, screen, color )
+
+    i = 0 #iter
+    l = len(points)
+
+    if l < 3:
+        print "error"
+
+    while i < l-2:
+        ax = points[i+1][0] - points[i][0]
+        ay = points[i+1][1] - points[i][1]
+        bx = points[i+2][0] - points[i][0]
+        by = points[i+2][1] - points[i][1]
+        norm = (ax*by)-(ay*bx)
+
+        if norm > 0:
+            draw_line(int(points[i][0]),
+                        int(points[i][1]),
+                        int(points[i+1][0]),
+                        int(points[i+1][1]),screen, color)
+            draw_line(int(points[i+1][0]),
+                        int(points[i+1][1]),
+                        int(points[i+2][0]),
+                        int(points[i+2][1]),screen, color)
+            draw_line(int(points[i+2][0]),
+                        int(points[i+2][1]),
+                        int(points[i][0]),
+                        int(points[i][1]),screen, color)           
+        i+=3
+
 
 def add_box( points, x, y, z, width, height, depth ):
     x1 = x + width
@@ -201,7 +229,7 @@ def draw_lines( matrix, screen, color ):
         return
     point = 0
     while point < len(matrix) - 1:
-        draw_line( int(matrix[point][0]),
+        draw_line(int(matrix[point][0]),
                    int(matrix[point][1]),
                    int(matrix[point+1][0]),
                    int(matrix[point+1][1]),
